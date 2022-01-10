@@ -6,6 +6,7 @@ import {logout} from '../../utilities/LogoutUtility'
 import Login from '../login/Login'
 import {getSongsInPlaylist} from '../../utilities/SongUtility'
 import './styles.css'
+import AddPlaylist from '../../components/addplaylist/AddPlaylist'
 const Home = () => {
     const [allSongs, setAllSongs] = useState([])
     const [loggedInState, setLoggedInState] = useState(false)
@@ -14,7 +15,10 @@ const Home = () => {
     const [selectedPlaylistName, setSelectedPlaylistName] = useState("")
     const [currentPlaylistSongs, setCurrentPlaylistSongs] = useState([]);
     const [refresh, refreshHome] = useState(0)
+    const [showAddPlaylist, enableAddPlaylist] = useState(false)
+    const [refreshPlaylist, enableRefreshplaylist] = useState(0)
 
+    // Don't make the useEffect inline function as async, as it's synchronous in nature
     useEffect(async () => {
         setAllSongs(await getAllSongs())
     },[])
@@ -28,11 +32,14 @@ const Home = () => {
         setLoggedInState(false)
         setCurrentUser("")
     }
-    console.log('I am reloaded')
+    
     return(
         <>
         {
-            loggedInState === false ? <Login p1={setLoggedInState} p2={setCurrentUser}/> :
+            loggedInState === false ? <Login p1={setLoggedInState} 
+                                             p2={setCurrentUser}
+                                            
+                                      /> :
             <div>
                 <h1>Current user: {currentUser}</h1>
                 <button onClick={terminateSession}>Logout</button>
@@ -40,9 +47,14 @@ const Home = () => {
                     <div className='playlists_section'>
                         <h1>Playlists</h1>
                         <button>Add new playlist</button>
+                        <AddPlaylist refresh = {refresh}
+                                     refreshHome = {refreshHome} 
+                        />
                         <h3>Selected Playlist: {selectedPlaylistName}</h3>
                         <PlaylistContainer setSelectedPlaylist = {setSelectedPlaylist}
                                            setSelectedPlaylistName = {setSelectedPlaylistName}
+                                           refresh = {refresh}
+                                           refreshHome = {refreshHome} 
                         />
                     </div>
                     <div className='playlist_songs_section'>

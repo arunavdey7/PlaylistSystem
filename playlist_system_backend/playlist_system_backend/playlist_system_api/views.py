@@ -138,6 +138,28 @@ def add_playlist_for_user(request):
         )
 
 @api_view(['POST'])
+def remove_playlist_for_user(request):
+    try:
+        token = request.headers['token']
+        _playlist_id = request.data['playlist_id']
+        _email = jwt.decode(token, SECRET, algorithms=["HS256"])['email']
+        _user_id = User.objects.get(email = _email)
+        Playlist.objects.filter(id = _playlist_id, user_id = _user_id).delete()
+        return Response(
+            {
+                'success': True
+            }
+        )
+    except Exception as err_msg:
+        return Response(
+            {
+                'success': False,
+                'message': str(err_msg)
+            }
+        )
+
+
+@api_view(['POST'])
 def get_songs_for_playlist(request):
     songs = []
     try:

@@ -43,15 +43,35 @@ export const addPlaylistForUser = async (playlistName) => {
     const {
         success
     } = await response.json()
-
     if(success)
     {
         return true
     }
-    else
-    {
-        return false
+    return false;
+}
+export const removePlaylistForUser = async (playlistId) => {
+    var requestData = {
+        playlist_id : playlistId
     }
+    var requestOptions = {
+        method: 'POST',
+        mode:'cors',
+        body: JSON.stringify(requestData),
+        headers:{
+            'Content-type':'Application/json',
+            'token': localStorage.getItem('token')
+        }
+      }
+      
+    const response = await fetch("/api/removeplaylistforuser/", requestOptions)
+    const {
+        success
+    } = await response.json()
+    if(success)
+    {
+        return true
+    }
+    return false;
 }
 
 export const addSongToPlaylist = async (playlistId,songId) => {

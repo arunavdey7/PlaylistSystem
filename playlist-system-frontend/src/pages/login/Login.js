@@ -27,9 +27,9 @@ const Login = (props) => {
         }
             
     }
-    const handleLogout = () =>
+    const handleSignup = () =>
     {
-        logout()
+        //logout()
     }
 
     return(
@@ -54,7 +54,7 @@ const Login = (props) => {
                 </tr>
             </table>
             <button onClick={handleLogin}>Login</button>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleSignup}>Sign Up</button>
         </div>
     )
 }
